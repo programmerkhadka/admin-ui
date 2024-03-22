@@ -25,12 +25,67 @@
         :class="isCollapse ? 'w-0' : ' w-96'"
       >
         <ul class="flex flex-col">
-          <li class="relative flex items-center px-2 py-4 border">
-            <span>Menu 1</span>
-            <!-- <ChevronDownIcon class="absolute w-6 h-6 font-bold right-1" /> -->
-            <ul class="">
-              <li><span>Sub Menu 1</span></li>
-              <li><span>Sub Menu 2</span></li>
+          <li v-for="(items, index) in menuItems">
+            <a
+              href="#"
+              class="relative flex py-3 pl-3 hover:bg-slate-300"
+              @click="openItems = !openItems"
+              ><span>{{ items.text }}</span>
+              <ChevronDownIcon
+                class="absolute w-6 h-6 right-1"
+                v-if="items.children.length"
+              />
+            </a>
+            <ul
+              class="flex flex-col transition-[height] duration-150 ease-in-out overflow-hidden"
+              :class="openItems ? 'h-auto' : 'h-0'"
+              v-if="items.children.length"
+            >
+              <li v-for="(subItems, index) in items.children">
+                <a
+                  href="#"
+                  class="relative flex py-3 pl-6 hover:bg-slate-300"
+                  @click="openSubItems = !openSubItems"
+                >
+                  <span>{{ subItems.text }}</span>
+                  <ChevronDownIcon
+                    class="absolute w-6 h-6 right-1"
+                    v-if="subItems.children.length"
+                /></a>
+                <ul
+                  class="flex flex-col overflow-hidden"
+                  v-for="(subsubItems, indxe) in subItems.children"
+                  v-if="subItems.children.length"
+                  :class="openSubItems ? 'h-auto' : 'h-0'"
+                >
+                  <li>
+                    <a
+                      href="#"
+                      class="relative flex py-3 pl-8 hover:bg-slate-300"
+                      @click="openSubSubItems = !openSubSubItems"
+                      ><span> {{ subsubItems.text }}</span>
+                      <ChevronDownIcon
+                        class="absolute w-6 h-6 right-1"
+                        v-if="subsubItems.children.length"
+                      />
+                    </a>
+                    <ul
+                      class="flex flex-col transition-[height] duration-150 ease-in-out overflow-hidden"
+                      v-for="(subsubsubItems, indxe) in subsubItems.children"
+                      v-if="subsubItems.children.length"
+                      :class="openSubSubItems ? 'h-auto' : 'h-0'"
+                    >
+                      <li>
+                        <a
+                          href="#"
+                          class="relative flex py-3 pl-10 hover:bg-slate-300"
+                          ><span> {{ subsubsubItems.text }}</span></a
+                        >
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </li>
         </ul>
@@ -51,6 +106,9 @@ import {
 import { onMounted, onUnmounted, ref } from "vue";
 const isCollapse = ref(false);
 
+const openItems = ref(false);
+const openSubItems = ref(false);
+const openSubSubItems = ref(false);
 const windowWidthRef = ref(0);
 onMounted(() => {
   window.addEventListener("resize", handleResize);
@@ -72,4 +130,138 @@ watch(windowWidthRef, (newValue, oldValue) => {
     isCollapse.value = false;
   }
 });
+
+const menuItems = [
+  {
+    text: "Application",
+    slug: "application",
+    href: "",
+    icon: "",
+    title: "Application",
+    children: [
+      {
+        text: "- Mobile",
+        slug: "mobile",
+        href: "",
+        icon: "",
+        title: "- Mobile",
+        children: [
+          {
+            text: "-- Social Media",
+            slug: "social-media",
+            href: "",
+            icon: "",
+            title: "-- Social Media",
+            children: [],
+          },
+          {
+            text: "-- Security",
+            slug: "security",
+            href: "",
+            icon: "",
+            title: "-- Security",
+            children: [],
+          },
+          {
+            text: "-- Project",
+            slug: "project",
+            href: "",
+            icon: "",
+            title: "-- Project",
+            children: [],
+          },
+          {
+            text: "-- Hardware",
+            slug: "hardware",
+            href: "",
+            icon: "",
+            title: "-- Hardware",
+            children: [],
+          },
+          {
+            text: "-- Activity",
+            slug: "activity",
+            href: "",
+            icon: "",
+            title: "- Activity",
+            children: [
+              {
+                text: "--- Social Media",
+                slug: "social-media",
+                href: "",
+                icon: "",
+                title: "--- Social Media",
+                children: [],
+              },
+              {
+                text: "--- Security",
+                slug: "security",
+                href: "",
+                icon: "",
+                title: "- Security",
+                children: [],
+              },
+              {
+                text: "--- Project",
+                slug: "project",
+                href: "",
+                icon: "",
+                title: "--- Project",
+                children: [],
+              },
+              {
+                text: "--- Hardware",
+                slug: "hardware",
+                href: "",
+                icon: "",
+                title: "--- Hardware",
+                children: [],
+              },
+              {
+                text: "--- Activity",
+                slug: "activity",
+                href: "",
+                icon: "",
+                title: "--- Activity",
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        text: "- Technology",
+        slug: "technology",
+        href: "",
+        icon: "",
+        title: "- Technology",
+        children: [],
+      },
+      {
+        text: "- Game",
+        slug: "game",
+        href: "",
+        icon: "",
+        title: "- Game",
+        children: [],
+      },
+      {
+        text: "- Software",
+        slug: "software",
+        href: "",
+        icon: "",
+        title: "- Software",
+        children: [],
+      },
+      {
+        text: "- Internet",
+        slug: "internet",
+        href: "",
+        icon: "",
+        title: "- Internet",
+        children: [],
+      },
+    ],
+  },
+];
 </script>
