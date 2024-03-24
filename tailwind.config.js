@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  presets: [require("./tailwind-brand-preset")],
   content: [
     "./components/**/*.{js,vue,ts}",
     "./layouts/**/*.vue",
